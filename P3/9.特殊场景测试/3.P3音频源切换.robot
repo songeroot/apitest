@@ -4,6 +4,7 @@ Library           ../../Python37/Lib/site-packages/DatabaseLibrary/
 Library           ../../Python37/Lib/site-packages/Selenium2Library/
 Library           ../../Python37/Lib/site-packages/MyTest.py
 Library           ../../Python37/Lib/site-packages/JSONLibrary/
+Resource          ../url.txt
 
 *** Test Cases ***
 5.1 HDMI和USB Camera音频反复切换
@@ -21,7 +22,7 @@ Library           ../../Python37/Lib/site-packages/JSONLibrary/
         log    切换成${var}的音频源
         ${body}    create dictionary    source=${var}
         ${body1}    MyTest.To Json    ${body}
-        ${rep}    My Post    http://192.168.43.142/api/codec/v1/audio/input/source    ${body1}    ${headers}
+        ${rep}    My Post    ${url}/api/codec/v1/audio/input/source    ${body1}    ${headers}
         ${result}    get_json_value    ${rep}    result
         sleep    4
         ${result}    MyTest.To Json    ${result}

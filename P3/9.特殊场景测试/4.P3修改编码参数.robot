@@ -4,6 +4,7 @@ Library           ../../Python37/Lib/site-packages/DatabaseLibrary/
 Library           ../../Python37/Lib/site-packages/Selenium2Library/
 Library           ../../Python37/Lib/site-packages/MyTest.py
 Library           ../../Python37/Lib/site-packages/JSONLibrary/
+Resource          ../url.txt
 
 *** Test Cases ***
 4.1 H.265和H.264反复切换
@@ -20,7 +21,7 @@ Library           ../../Python37/Lib/site-packages/JSONLibrary/
     FOR    ${var}    IN    @{list}    #切换成对应指定的编码
         log    切换成${var}编码
         ${body}    set variable    {"codec":"${var}","grey":false,"profile":0,"picHeight":1,"picWidth":1,"mode":"CBR","gop":60,"fps":60,"bitrate":6000,"maxBitrate":6000,"minQp":24,"maxQp":51,"minIQp":24}
-        ${rep}    My Post    http://192.168.43.195/api/codec/v1/venc/settings    ${body}    ${headers}
+        ${rep}    My Post    ${url}/api/codec/v1/venc/settings    ${body}    ${headers}
         ${result}    get_json_value    ${rep}    result
         sleep    4
         ${result}    MyTest.To Json    ${result}

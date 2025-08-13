@@ -1,2 +1,2 @@
 *** Variables ***
-${url}            http://192.168.4.26/api
+${url}            http://192.168.4.126
