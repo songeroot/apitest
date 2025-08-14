@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 4.1 (Python 3.7.8 on win32)" generated="20250814 10:50:54.898" rpa="false" schemaversion="2">
+<suite id="s1" name="3.P3音频源切换" source="D:\api\P3\9.特殊场景测试\3.P3音频源切换.robot">
+<test id="s1-t1" name="5.1 HDMI和USB Camera音频反复切换">
+<for flavor="IN RANGE">
+<var>${var}</var>
+<value>50</value>
+<iter>
+<var name="${var}">0</var>
+<kw name="Evaluate" library="BuiltIn">
+<var>${var2}</var>
+<arg>${var} * 2</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20250814 10:50:55.605" level="INFO">${var2} = 0</msg>
+<status status="PASS" starttime="20250814 10:50:55.604" endtime="20250814 10:50:55.605"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>第${var2} 次切换---------------------------------------------------------------------------------------------------------</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250814 10:50:55.605" level="INFO">第0 次切换---------------------------------------------------------------------------------------------------------</msg>
+<status status="PASS" starttime="20250814 10:50:55.605" endtime="20250814 10:50:55.605"/>
+</kw>
+<kw name="音频源切换">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<arg>Content-Type=application/x-www-form-urlencoded</arg>
+<arg>Authorization=Basic YWRtaW46YWRtaW4=</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20250814 10:50:55.606" level="INFO">${headers} = {'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46YWRtaW4='}</msg>
+<status status="PASS" starttime="20250814 10:50:55.605" endtime="20250814 10:50:55.606"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>@{list}</var>
+<arg>hdmi</arg>
+<arg>uvc</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250814 10:50:55.606" level="INFO">@{list} = [ hdmi | uvc ]</msg>
+<status status="PASS" starttime="20250814 10:50:55.606" endtime="20250814 10:50:55.606"/>
+</kw>
+<for flavor="IN">
+<var>${var}</var>
+<value>@{list}</value>
+<iter>
+<var name="${var}">hdmi</var>
+<kw name="Log" library="BuiltIn">
+<arg>切换成${var}的音频源</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250814 10:50:55.607" level="INFO">切换成hdmi的音频源</msg>
+<status status="PASS" starttime="20250814 10:50:55.606" endtime="20250814 10:50:55.607"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${body}</var>
+<arg>source=${var}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20250814 10:50:55.607" level="INFO">${body} = {'source': 'hdmi'}</msg>
+<status status="PASS" starttime="20250814 10:50:55.607" endtime="20250814 10:50:55.607"/>
+</kw>
+<kw name="To Json" library="MyTest">
+<var>${body1}</var>
+<arg>${body}</arg>
+<msg timestamp="20250814 10:50:55.608" level="INFO">${body1} = {"source": "hdmi"}</msg>
+<status status="PASS" starttime="20250814 10:50:55.607" endtime="20250814 10:50:55.608"/>
+</kw>
+<kw name="My Post" library="MyTest">
+<var>${rep}</var>
+<arg>${url}/api/codec/v1/audio/input/source</arg>
+<arg>${body1}</arg>
+<arg>${headers}</arg>
+<msg timestamp="20250814 10:51:16.656" level="FAIL">ConnectionError: HTTPConnectionPool(host='192.168.4.126', port=80): Max retries exceeded with url: /api/codec/v1/audio/input/source (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x00000212317F9348&gt;: Failed to establish a new connection: [WinError 10060] 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。'))</msg>
+<status status="FAIL" starttime="20250814 10:50:55.608" endtime="20250814 10:51:16.656"/>
+</kw>
+<kw name="Get Json Value" library="MyTest">
+<var>${result}</var>
+<arg>${rep}</arg>
+<arg>result</arg>
+<status status="NOT RUN" starttime="20250814 10:51:16.657" endtime="20250814 10:51:16.657"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>4</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" starttime="20250814 10:51:16.657" endtime="20250814 10:51:16.657"/>
+</kw>
+<kw name="To Json" library="MyTest">
+<var>${result}</var>
+<arg>${result}</arg>
+<status status="NOT RUN" starttime="20250814 10:51:16.657" endtime="20250814 10:51:16.657"/>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>${result}=="ok"</arg>
+<arg>log</arg>
+<arg>用例执行成功，已切换成${var}的音频源</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="NOT RUN" starttime="20250814 10:51:16.657" endtime="20250814 10:51:16.657"/>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>${result}!="ok"</arg>
+<arg>fail</arg>
+<arg>用例执行失败，切换音频源失败：${result}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="NOT RUN" starttime="20250814 10:51:16.657" endtime="20250814 10:51:16.657"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" starttime="20250814 10:51:16.657" endtime="20250814 10:51:16.657"/>
+</kw>
+<status status="FAIL" starttime="20250814 10:50:55.606" endtime="20250814 10:51:16.657"/>
+</iter>
+<status status="FAIL" starttime="20250814 10:50:55.606" endtime="20250814 10:51:16.658"/>
+</for>
+<status status="FAIL" starttime="20250814 10:50:55.605" endtime="20250814 10:51:16.658"/>
+</kw>
+<status status="FAIL" starttime="20250814 10:50:55.604" endtime="20250814 10:51:16.658"/>
+</iter>
+<status status="FAIL" starttime="20250814 10:50:55.604" endtime="20250814 10:51:16.658"/>
+</for>
+<status status="FAIL" starttime="20250814 10:50:55.603" endtime="20250814 10:51:16.660">ConnectionError: HTTPConnectionPool(host='192.168.4.126', port=80): Max retries exceeded with url: /api/codec/v1/audio/input/source (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x00000212317F9348&gt;: Failed to establish a new connection: [WinError 10060] 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。'))</status>
+</test>
+<status status="FAIL" starttime="20250814 10:50:54.899" endtime="20250814 10:51:16.666"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="3.P3音频源切换">3.P3音频源切换</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
