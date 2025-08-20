@@ -16,7 +16,7 @@ Resource          ../url.txt
 
 *** Keywords ***
 编码参数修改
-    ${headers}    create dictionary    Content-Type=application/x-www-form-urlencoded    Authorization=Basic YWRtaW46YWRtaW4=    Content-Type=application/json
+    ${headers}    create dictionary    Content-Type=application/x-www-form-urlencoded    Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibWQ1X3N0ciI6ImVhMWI3MWI5YTljMWFkNjAwNWI1MGQ4YmQyZjNmNjBmIiwiZXhwIjo0ODc3NjU3NDU4fQ.4kZiplREYl8kdCOp9LTB2ix_kJb5KHiJijArkwvODAc    Content-Type=application/json
     @{list}    set variable    H264    H265
     FOR    ${var}    IN    @{list}    #切换成对应指定的编码
         log    切换成${var}编码

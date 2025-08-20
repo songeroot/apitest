@@ -1,132 +1,206 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 4.1 (Python 3.7.8 on win32)" generated="20250814 10:50:54.898" rpa="false" schemaversion="2">
-<suite id="s1" name="3.P3音频源切换" source="D:\api\P3\9.特殊场景测试\3.P3音频源切换.robot">
-<test id="s1-t1" name="5.1 HDMI和USB Camera音频反复切换">
+<robot generator="Robot 4.1 (Python 3.7.8 on win32)" generated="20250814 10:56:38.305" rpa="false" schemaversion="2">
+<suite id="s1" name="4.P3修改编码参数" source="D:\api\P3\9.特殊场景测试\4.P3修改编码参数.robot">
+<test id="s1-t1" name="4.1 H.265和H.264反复切换">
 <for flavor="IN RANGE">
 <var>${var}</var>
-<value>50</value>
+<value>1</value>
 <iter>
 <var name="${var}">0</var>
 <kw name="Evaluate" library="BuiltIn">
 <var>${var2}</var>
 <arg>${var} * 2</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20250814 10:50:55.605" level="INFO">${var2} = 0</msg>
-<status status="PASS" starttime="20250814 10:50:55.604" endtime="20250814 10:50:55.605"/>
+<msg timestamp="20250814 10:56:38.595" level="INFO">${var2} = 0</msg>
+<status status="PASS" starttime="20250814 10:56:38.595" endtime="20250814 10:56:38.595"/>
 </kw>
 <kw name="Log" library="BuiltIn">
 <arg>第${var2} 次切换---------------------------------------------------------------------------------------------------------</arg>
 <doc>Logs the given message with the given level.</doc>
-<msg timestamp="20250814 10:50:55.605" level="INFO">第0 次切换---------------------------------------------------------------------------------------------------------</msg>
-<status status="PASS" starttime="20250814 10:50:55.605" endtime="20250814 10:50:55.605"/>
+<msg timestamp="20250814 10:56:38.596" level="INFO">第0 次切换---------------------------------------------------------------------------------------------------------</msg>
+<status status="PASS" starttime="20250814 10:56:38.596" endtime="20250814 10:56:38.596"/>
 </kw>
-<kw name="音频源切换">
+<kw name="编码参数修改">
 <kw name="Create Dictionary" library="BuiltIn">
 <var>${headers}</var>
 <arg>Content-Type=application/x-www-form-urlencoded</arg>
 <arg>Authorization=Basic YWRtaW46YWRtaW4=</arg>
 <arg>Content-Type=application/json</arg>
 <doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20250814 10:50:55.606" level="INFO">${headers} = {'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46YWRtaW4='}</msg>
-<status status="PASS" starttime="20250814 10:50:55.605" endtime="20250814 10:50:55.606"/>
+<msg timestamp="20250814 10:56:38.597" level="INFO">${headers} = {'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46YWRtaW4='}</msg>
+<status status="PASS" starttime="20250814 10:56:38.596" endtime="20250814 10:56:38.597"/>
 </kw>
 <kw name="Set Variable" library="BuiltIn">
 <var>@{list}</var>
-<arg>hdmi</arg>
-<arg>uvc</arg>
+<arg>H264</arg>
+<arg>H265</arg>
 <doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20250814 10:50:55.606" level="INFO">@{list} = [ hdmi | uvc ]</msg>
-<status status="PASS" starttime="20250814 10:50:55.606" endtime="20250814 10:50:55.606"/>
+<msg timestamp="20250814 10:56:38.597" level="INFO">@{list} = [ H264 | H265 ]</msg>
+<status status="PASS" starttime="20250814 10:56:38.597" endtime="20250814 10:56:38.597"/>
 </kw>
 <for flavor="IN">
 <var>${var}</var>
 <value>@{list}</value>
 <iter>
-<var name="${var}">hdmi</var>
+<var name="${var}">H264</var>
 <kw name="Log" library="BuiltIn">
-<arg>切换成${var}的音频源</arg>
+<arg>切换成${var}编码</arg>
 <doc>Logs the given message with the given level.</doc>
-<msg timestamp="20250814 10:50:55.607" level="INFO">切换成hdmi的音频源</msg>
-<status status="PASS" starttime="20250814 10:50:55.606" endtime="20250814 10:50:55.607"/>
+<msg timestamp="20250814 10:56:38.598" level="INFO">切换成H264编码</msg>
+<status status="PASS" starttime="20250814 10:56:38.598" endtime="20250814 10:56:38.598"/>
 </kw>
-<kw name="Create Dictionary" library="BuiltIn">
+<kw name="Set Variable" library="BuiltIn">
 <var>${body}</var>
-<arg>source=${var}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20250814 10:50:55.607" level="INFO">${body} = {'source': 'hdmi'}</msg>
-<status status="PASS" starttime="20250814 10:50:55.607" endtime="20250814 10:50:55.607"/>
-</kw>
-<kw name="To Json" library="MyTest">
-<var>${body1}</var>
-<arg>${body}</arg>
-<msg timestamp="20250814 10:50:55.608" level="INFO">${body1} = {"source": "hdmi"}</msg>
-<status status="PASS" starttime="20250814 10:50:55.607" endtime="20250814 10:50:55.608"/>
+<arg>{"codec":"${var}","grey":false,"profile":0,"picHeight":1,"picWidth":1,"mode":"CBR","gop":60,"fps":60,"bitrate":6000,"maxBitrate":6000,"minQp":24,"maxQp":51,"minIQp":24}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250814 10:56:38.598" level="INFO">${body} = {"codec":"H264","grey":false,"profile":0,"picHeight":1,"picWidth":1,"mode":"CBR","gop":60,"fps":60,"bitrate":6000,"maxBitrate":6000,"minQp":24,"maxQp":51,"minIQp":24}</msg>
+<status status="PASS" starttime="20250814 10:56:38.598" endtime="20250814 10:56:38.598"/>
 </kw>
 <kw name="My Post" library="MyTest">
 <var>${rep}</var>
-<arg>${url}/api/codec/v1/audio/input/source</arg>
-<arg>${body1}</arg>
+<arg>${url}/api/codec/v1/venc/settings</arg>
+<arg>${body}</arg>
 <arg>${headers}</arg>
-<msg timestamp="20250814 10:51:16.656" level="FAIL">ConnectionError: HTTPConnectionPool(host='192.168.4.126', port=80): Max retries exceeded with url: /api/codec/v1/audio/input/source (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x00000212317F9348&gt;: Failed to establish a new connection: [WinError 10060] 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。'))</msg>
-<status status="FAIL" starttime="20250814 10:50:55.608" endtime="20250814 10:51:16.656"/>
+<msg timestamp="20250814 10:56:40.252" level="INFO">${rep} = {"result":"ok","msg":""}</msg>
+<status status="PASS" starttime="20250814 10:56:38.598" endtime="20250814 10:56:40.252"/>
 </kw>
 <kw name="Get Json Value" library="MyTest">
 <var>${result}</var>
 <arg>${rep}</arg>
 <arg>result</arg>
-<status status="NOT RUN" starttime="20250814 10:51:16.657" endtime="20250814 10:51:16.657"/>
+<msg timestamp="20250814 10:56:40.253" level="INFO">${result} = ok</msg>
+<status status="PASS" starttime="20250814 10:56:40.252" endtime="20250814 10:56:40.253"/>
 </kw>
 <kw name="Sleep" library="BuiltIn">
 <arg>4</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="NOT RUN" starttime="20250814 10:51:16.657" endtime="20250814 10:51:16.657"/>
+<msg timestamp="20250814 10:56:44.254" level="INFO">Slept 4 seconds</msg>
+<status status="PASS" starttime="20250814 10:56:40.253" endtime="20250814 10:56:44.254"/>
 </kw>
 <kw name="To Json" library="MyTest">
 <var>${result}</var>
 <arg>${result}</arg>
-<status status="NOT RUN" starttime="20250814 10:51:16.657" endtime="20250814 10:51:16.657"/>
+<msg timestamp="20250814 10:56:44.254" level="INFO">${result} = "ok"</msg>
+<status status="PASS" starttime="20250814 10:56:44.254" endtime="20250814 10:56:44.254"/>
 </kw>
 <kw name="Run Keyword If" library="BuiltIn">
 <arg>${result}=="ok"</arg>
 <arg>log</arg>
-<arg>用例执行成功，已切换成${var}的音频源</arg>
+<arg>用例执行成功，已切换成${var}编码</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="NOT RUN" starttime="20250814 10:51:16.657" endtime="20250814 10:51:16.657"/>
+<kw name="Log" library="BuiltIn">
+<arg>用例执行成功，已切换成${var}编码</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250814 10:56:44.255" level="INFO">用例执行成功，已切换成H264编码</msg>
+<status status="PASS" starttime="20250814 10:56:44.255" endtime="20250814 10:56:44.255"/>
+</kw>
+<status status="PASS" starttime="20250814 10:56:44.254" endtime="20250814 10:56:44.255"/>
 </kw>
 <kw name="Run Keyword If" library="BuiltIn">
 <arg>${result}!="ok"</arg>
 <arg>fail</arg>
-<arg>用例执行失败，切换音频源失败：${result}</arg>
+<arg>用例执行失败，切换成${var}编码失败：${result}</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="NOT RUN" starttime="20250814 10:51:16.657" endtime="20250814 10:51:16.657"/>
+<status status="PASS" starttime="20250814 10:56:44.255" endtime="20250814 10:56:44.255"/>
 </kw>
 <kw name="Sleep" library="BuiltIn">
 <arg>2</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="NOT RUN" starttime="20250814 10:51:16.657" endtime="20250814 10:51:16.657"/>
+<msg timestamp="20250814 10:56:46.256" level="INFO">Slept 2 seconds</msg>
+<status status="PASS" starttime="20250814 10:56:44.255" endtime="20250814 10:56:46.256"/>
 </kw>
-<status status="FAIL" starttime="20250814 10:50:55.606" endtime="20250814 10:51:16.657"/>
+<status status="PASS" starttime="20250814 10:56:38.597" endtime="20250814 10:56:46.256"/>
 </iter>
-<status status="FAIL" starttime="20250814 10:50:55.606" endtime="20250814 10:51:16.658"/>
-</for>
-<status status="FAIL" starttime="20250814 10:50:55.605" endtime="20250814 10:51:16.658"/>
+<iter>
+<var name="${var}">H265</var>
+<kw name="Log" library="BuiltIn">
+<arg>切换成${var}编码</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250814 10:56:46.256" level="INFO">切换成H265编码</msg>
+<status status="PASS" starttime="20250814 10:56:46.256" endtime="20250814 10:56:46.256"/>
 </kw>
-<status status="FAIL" starttime="20250814 10:50:55.604" endtime="20250814 10:51:16.658"/>
+<kw name="Set Variable" library="BuiltIn">
+<var>${body}</var>
+<arg>{"codec":"${var}","grey":false,"profile":0,"picHeight":1,"picWidth":1,"mode":"CBR","gop":60,"fps":60,"bitrate":6000,"maxBitrate":6000,"minQp":24,"maxQp":51,"minIQp":24}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250814 10:56:46.257" level="INFO">${body} = {"codec":"H265","grey":false,"profile":0,"picHeight":1,"picWidth":1,"mode":"CBR","gop":60,"fps":60,"bitrate":6000,"maxBitrate":6000,"minQp":24,"maxQp":51,"minIQp":24}</msg>
+<status status="PASS" starttime="20250814 10:56:46.256" endtime="20250814 10:56:46.257"/>
+</kw>
+<kw name="My Post" library="MyTest">
+<var>${rep}</var>
+<arg>${url}/api/codec/v1/venc/settings</arg>
+<arg>${body}</arg>
+<arg>${headers}</arg>
+<msg timestamp="20250814 10:56:48.071" level="INFO">${rep} = {"result":"ok","msg":""}</msg>
+<status status="PASS" starttime="20250814 10:56:46.257" endtime="20250814 10:56:48.071"/>
+</kw>
+<kw name="Get Json Value" library="MyTest">
+<var>${result}</var>
+<arg>${rep}</arg>
+<arg>result</arg>
+<msg timestamp="20250814 10:56:48.071" level="INFO">${result} = ok</msg>
+<status status="PASS" starttime="20250814 10:56:48.071" endtime="20250814 10:56:48.072"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>4</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20250814 10:56:52.074" level="INFO">Slept 4 seconds</msg>
+<status status="PASS" starttime="20250814 10:56:48.072" endtime="20250814 10:56:52.074"/>
+</kw>
+<kw name="To Json" library="MyTest">
+<var>${result}</var>
+<arg>${result}</arg>
+<msg timestamp="20250814 10:56:52.074" level="INFO">${result} = "ok"</msg>
+<status status="PASS" starttime="20250814 10:56:52.074" endtime="20250814 10:56:52.074"/>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>${result}=="ok"</arg>
+<arg>log</arg>
+<arg>用例执行成功，已切换成${var}编码</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<kw name="Log" library="BuiltIn">
+<arg>用例执行成功，已切换成${var}编码</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250814 10:56:52.075" level="INFO">用例执行成功，已切换成H265编码</msg>
+<status status="PASS" starttime="20250814 10:56:52.075" endtime="20250814 10:56:52.075"/>
+</kw>
+<status status="PASS" starttime="20250814 10:56:52.074" endtime="20250814 10:56:52.075"/>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>${result}!="ok"</arg>
+<arg>fail</arg>
+<arg>用例执行失败，切换成${var}编码失败：${result}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" starttime="20250814 10:56:52.075" endtime="20250814 10:56:52.075"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20250814 10:56:54.077" level="INFO">Slept 2 seconds</msg>
+<status status="PASS" starttime="20250814 10:56:52.076" endtime="20250814 10:56:54.077"/>
+</kw>
+<status status="PASS" starttime="20250814 10:56:46.256" endtime="20250814 10:56:54.077"/>
 </iter>
-<status status="FAIL" starttime="20250814 10:50:55.604" endtime="20250814 10:51:16.658"/>
+<status status="PASS" starttime="20250814 10:56:38.597" endtime="20250814 10:56:54.077"/>
 </for>
-<status status="FAIL" starttime="20250814 10:50:55.603" endtime="20250814 10:51:16.660">ConnectionError: HTTPConnectionPool(host='192.168.4.126', port=80): Max retries exceeded with url: /api/codec/v1/audio/input/source (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x00000212317F9348&gt;: Failed to establish a new connection: [WinError 10060] 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。'))</status>
+<status status="PASS" starttime="20250814 10:56:38.596" endtime="20250814 10:56:54.077"/>
+</kw>
+<status status="PASS" starttime="20250814 10:56:38.595" endtime="20250814 10:56:54.077"/>
+</iter>
+<status status="PASS" starttime="20250814 10:56:38.595" endtime="20250814 10:56:54.077"/>
+</for>
+<status status="PASS" starttime="20250814 10:56:38.594" endtime="20250814 10:56:54.079"/>
 </test>
-<status status="FAIL" starttime="20250814 10:50:54.899" endtime="20250814 10:51:16.666"/>
+<status status="PASS" starttime="20250814 10:56:38.306" endtime="20250814 10:56:54.080"/>
 </suite>
 <statistics>
 <total>
-<stat pass="0" fail="1" skip="0">All Tests</stat>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat pass="0" fail="1" skip="0" id="s1" name="3.P3音频源切换">3.P3音频源切换</stat>
+<stat pass="1" fail="0" skip="0" id="s1" name="4.P3修改编码参数">4.P3修改编码参数</stat>
 </suite>
 </statistics>
 <errors>
