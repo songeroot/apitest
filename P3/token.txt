@@ -1,0 +1,2 @@
+*** Variables ***
+${auth_token}     eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibWQ1X3N0ciI6ImVhMWI3MWI5YTljMWFkNjAwNWI1MGQ4YmQyZjNmNjBmIiwiZXhwIjo0ODgwMDg1MDMzfQ.M5G0jN5DB_HRLRi2gubtf2kAR8pY1A_0xG1no_Fj0xo

@@ -6,14 +6,15 @@ Library           ../../Python37/Lib/site-packages/Selenium2Library/
 Library           ../../Python37/Lib/site-packages/JSONLibrary/
 Resource          ../url.txt
 Library           Collections
+Resource          ../token.txt
 
 *** Variables ***
 
 *** Test Cases ***
-3.1.1.1 获取流列表-正常场景-获取所有流
+1.1.1.1 获取流列表-正常场景-获取所有流
     [Documentation]    验证能够正常获取所有流列表
     # 正常场景测试
-    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibWQ1X3N0ciI6ImVhMWI3MWI5YTljMWFkNjAwNWI1MGQ4YmQyZjNmNjBmIiwiZXhwIjo0ODc3MzE2MDQ1fQ.6nGLn21C_ydDteQWVUc5N5tSFEybWBwdHJP7pUcEoqs
+    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试设备地址为：${url}
     Log    获取流列表---------------------------------------------------
     ${rep}    My_Get    ${url}/api/streamer/v1/stream/list    ${headers}
@@ -27,10 +28,11 @@ Library           Collections
     # 记录流的数量
     ${stream_count}    Get Length    ${json_data}
     Log    获取到${stream_count}个流
+    sleep    1
 
-3.1.1.2 获取流列表-正常场景-验证流数据结构完整性
+1.1.1.2 获取流列表-正常场景-验证流数据结构完整性
     [Documentation]    验证返回的流数据包含所有必要字段
-    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibWQ1X3N0ciI6ImVhMWI3MWI5YTljMWFkNjAwNWI1MGQ4YmQyZjNmNjBmIiwiZXhwIjo0ODc3MzE2MDQ1fQ.6nGLn21C_ydDteQWVUc5N5tSFEybWBwdHJP7pUcEoqs
+    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试设备地址为：${url}
     Log    验证流数据结构---------------------------------------------------
     ${rep}    My Get    ${url}/api/streamer/v1/stream/list    ${headers}
@@ -45,10 +47,11 @@ Library           Collections
     ${array_length}    Get Length    ${json_data}
     Run Keyword If    ${array_length}>0    验证流数据必要字段    ${json_data}
     Run Keyword If    ${array_length}==0    Log    流列表为空，无法验证数据结构
+    sleep    1
 
-3.1.1.3 获取流列表-正常场景-验证不同类型流的数据
+1.1.1.3 获取流列表-正常场景-验证不同类型流的数据
     [Documentation]    验证不同类型的流（如rtsp、rtmp等）数据是否正确
-    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibWQ1X3N0ciI6ImVhMWI3MWI5YTljMWFkNjAwNWI1MGQ4YmQyZjNmNjBmIiwiZXhwIjo0ODc3MzE2MDQ1fQ.6nGLn21C_ydDteQWVUc5N5tSFEybWBwdHJP7pUcEoqs
+    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试设备地址为：${url}
     Log    验证不同类型流数据---------------------------------------------------
     ${rep}    My Get    ${url}/api/streamer/v1/stream/list    ${headers}
@@ -64,8 +67,9 @@ Library           Collections
     Run Keyword If    ${array_length}>0    验证不同类型流    ${json_data}
     Run Keyword If    ${array_length}==0    Log    流列表没有创建流服务
     # 异常场景测试
+    sleep    1
 
-3.1.1.4 获取流列表-异常场景-无权限访问
+1.1.1.4 获取流列表-异常场景-无权限访问
     [Documentation]    使用无权限的认证信息访问接口
     ${headers}    Create Dictionary    Content-Type=application/json    Authorization=AABB
     Log    测试设备地址为：${url}
@@ -76,8 +80,9 @@ Library           Collections
     ${status_code}    Get From Dictionary    ${rep}    status_code
     Run Keyword If    ${status_code}==401 or ${status_code}==403    Log    权限验证通过，无权限访问返回正确状态码
     Run Keyword If    ${status_code}!=401 and ${status_code}!=403    Fail    权限验证失败，期望状态码为401或403，实际为${status_code}
+    sleep    1
 
-3.1.1.5 获取流列表-异常场景-无效认证信息
+1.1.1.5 获取流列表-异常场景-无效认证信息
     [Documentation]    使用无效的认证信息访问接口
     ${headers}    Create Dictionary    Content-Type=application/json    Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
     Log    测试设备地址为：${url}
@@ -88,8 +93,9 @@ Library           Collections
     ${status_code}    Get From Dictionary    ${rep}    status_code
     Run Keyword If    ${status_code}==401    Log    认证验证通过，无效认证信息返回正确状态码
     Run Keyword If    ${status_code}!=401    Fail    认证验证失败，期望状态码为401，实际为${status_code}
+    sleep    1
 
-3.1.1.6 获取流列表-异常场景-无认证信息
+1.1.1.6 获取流列表-异常场景-无认证信息
     [Documentation]    不提供认证信息访问接口
     ${headers}    Create Dictionary    Content-Type=application/json
     Log    测试设备地址为：${url}
@@ -100,10 +106,11 @@ Library           Collections
     ${status_code}    Get From Dictionary    ${rep}    status_code
     Run Keyword If    ${status_code}==401    Log    认证验证通过，无认证信息返回正确状态码
     Run Keyword If    ${status_code}!=401    Fail    认证验证失败，期望状态码为401，实际为${status_code}
+    sleep    1
 
-3.1.1.9 获取流列表-异常场景-错误的URL路径
+1.1.1.7 获取流列表-异常场景-错误的URL路径
     [Documentation]    使用错误的URL路径访问接口
-    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibWQ1X3N0ciI6ImVhMWI3MWI5YTljMWFkNjAwNWI1MGQ4YmQyZjNmNjBmIiwiZXhwIjo0ODc3MzE2MDQ1fQ.6nGLn21C_ydDteQWVUc5N5tSFEybWBwdHJP7pUcEoqs
+    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试设备地址为：${url}
     Log    错误URL路径测试---------------------------------------------------
     ${rep}    My Gett    ${url}/api/streamer/v1/stream/list1    ${headers}
@@ -113,20 +120,22 @@ Library           Collections
     Run Keyword If    ${status_code}==405 or ${status_code}==404    Log    URL路径验证通过，错误路径返回正确状态码
     Run Keyword If    ${status_code}!=405 and ${status_code}!=404    Fail    URL路径验证失败，期望状态码为404，实际为${status_code}
     # 边界场景测试
+    sleep    1
 
-3.1.1.10 获取流列表-边界场景-响应超时
+1.1.1.8 获取流列表-边界场景-响应超时
     [Documentation]    测试接口响应超时情况
-    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibWQ1X3N0ciI6ImVhMWI3MWI5YTljMWFkNjAwNWI1MGQ4YmQyZjNmNjBmIiwiZXhwIjo0ODc3MzE2MDQ1fQ.6nGLn21C_ydDteQWVUc5N5tSFEybWBwdHJP7pUcEoqs
+    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试设备地址为：${url}
     Log    响应超时测试---------------------------------------------------
     # 设置较短的超时时间
     ${status}    Run Keyword And Return Status    Wait Until Keyword Succeeds    0.1s    0.2s    My Get    ${url}/v1/stream/list    ${headers}
     Run Keyword If    ${status}==True    Log    响应时间在预期范围内，测试通过
     Run Keyword If    ${status}==False    Log    响应超时，可能需要检查服务器性能
+    sleep    1
 
-3.1.1.11 获取流列表-边界场景-大量数据处理
+1.1.1.9 获取流列表-边界场景-大量数据处理
     [Documentation]    测试系统处理大量流数据的能力
-    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibWQ1X3N0ciI6ImVhMWI3MWI5YTljMWFkNjAwNWI1MGQ4YmQyZjNmNjBmIiwiZXhwIjo0ODc3MzE2MDQ1fQ.6nGLn21C_ydDteQWVUc5N5tSFEybWBwdHJP7pUcEoqs
+    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试设备地址为：${url}
     Log    大量数据处理测试---------------------------------------------------
     ${rep}    My Get    ${url}/api/streamer/v1/stream/list    ${headers}
@@ -142,10 +151,11 @@ Library           Collections
     # 如果数组长度大于10，验证是否能正确处理大量数据
     Run Keyword If    ${array_length}>10    Log    系统能够处理大量流数据，测试通过
     Run Keyword If    ${array_length}<=10    Log    流数量不足以测试大量数据处理能力，测试跳过
+    sleep    1
 
-3.1.1.12 获取流列表-边界场景-空列表处理
+1.1.1.10 获取流列表-边界场景-空列表处理
     [Documentation]    测试系统处理空流列表的情况
-    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibWQ1X3N0ciI6ImVhMWI3MWI5YTljMWFkNjAwNWI1MGQ4YmQyZjNmNjBmIiwiZXhwIjo0ODc3MzE2MDQ1fQ.6nGLn21C_ydDteQWVUc5N5tSFEybWBwdHJP7pUcEoqs
+    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试设备地址为：${url}
     Log    空列表处理测试---------------------------------------------------
     ${rep}    My Get    ${url}/api/streamer/v1/stream/list    ${headers}
@@ -161,10 +171,11 @@ Library           Collections
     # 即使列表为空，也应该返回空数组而不是null或其他值
     Run Keyword If    ${array_length}==0    Log    系统正确处理空列表，返回空数组
     # 功能场景测试
+    sleep    1
 
-3.1.1.13 获取流列表-功能场景-验证流状态一致性
+1.1.1.11 获取流列表-功能场景-验证流状态一致性
     [Documentation]    验证流的enable状态与status状态的一致性
-    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibWQ1X3N0ciI6ImVhMWI3MWI5YTljMWFkNjAwNWI1MGQ4YmQyZjNmNjBmIiwiZXhwIjo0ODc3MzE2MDQ1fQ.6nGLn21C_ydDteQWVUc5N5tSFEybWBwdHJP7pUcEoqs
+    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试设备地址为：${url}
     Log    验证流状态一致性---------------------------------------------------
     ${rep}    My Get    ${url}/api/streamer/v1/stream/list    ${headers}
@@ -178,10 +189,11 @@ Library           Collections
     ${array_length}    Get Length    ${json_data}
     Run Keyword If    ${array_length}>0    验证流状态一致性    ${json_data}
     Run Keyword If    ${array_length}==0    Log    流列表为空，无法验证状态一致性
+    sleep    1
 
-3.1.1.14 获取流列表-功能场景-验证流地址可访问性
+1.1.1.12 获取流列表-功能场景-验证流地址可访问性
     [Documentation]    验证启用的流的地址是否可访问
-    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibWQ1X3N0ciI6ImVhMWI3MWI5YTljMWFkNjAwNWI1MGQ4YmQyZjNmNjBmIiwiZXhwIjo0ODc3MzE2MDQ1fQ.6nGLn21C_ydDteQWVUc5N5tSFEybWBwdHJP7pUcEoqs
+    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试设备地址为：${url}
     Log    验证流地址可访问性---------------------------------------------------
     ${rep}    My Get    ${url}/api/streamer/v1/stream/list    ${headers}
@@ -195,10 +207,11 @@ Library           Collections
     ${array_length}    Get Length    ${json_data}
     Run Keyword If    ${array_length}>0    验证流地址可访问性    ${json_data}
     Run Keyword If    ${array_length}==0    Log    流列表为空，无法验证地址可访问性
+    sleep    1
 
-3.1.1.15 获取流列表-功能场景-验证端口号有效性
+1.1.1.13 获取流列表-功能场景-验证端口号有效性
     [Documentation]    验证流的端口号是否在有效范围内
-    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibWQ1X3N0ciI6ImVhMWI3MWI5YTljMWFkNjAwNWI1MGQ4YmQyZjNmNjBmIiwiZXhwIjo0ODc3MzE2MDQ1fQ.6nGLn21C_ydDteQWVUc5N5tSFEybWBwdHJP7pUcEoqs
+    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试设备地址为：${url}
     Log    验证端口号有效性---------------------------------------------------
     ${rep}    My Get    ${url}/api/streamer/v1/stream/list    ${headers}
@@ -214,10 +227,11 @@ Library           Collections
     Run Keyword If    ${array_length}==0    Log    流列表为空，无法验证端口号有效性
     Log    所有流端口号有效性验证通过
     # 性能场景测试
+    sleep    1
 
-3.1.1.16 获取流列表-性能场景-连续请求
+1.1.1.14 获取流列表-性能场景-连续请求
     [Documentation]    测试连续多次请求接口的性能
-    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibWQ1X3N0ciI6ImVhMWI3MWI5YTljMWFkNjAwNWI1MGQ4YmQyZjNmNjBmIiwiZXhwIjo0ODc3MzE2MDQ1fQ.6nGLn21C_ydDteQWVUc5N5tSFEybWBwdHJP7pUcEoqs
+    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试设备地址为：${url}
     Log    连续请求测试---------------------------------------------------
     # 连续请求10次，记录每次响应时间
@@ -235,10 +249,11 @@ Library           Collections
         Sleep    0.5s
     END
     Log    连续请求测试完成
+    sleep    1
 
-3.1.1.17 获取流列表-性能场景-并发请求
+1.1.1.15 获取流列表-性能场景-并发请求
     [Documentation]    测试并发请求接口的性能
-    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibWQ1X3N0ciI6ImVhMWI3MWI5YTljMWFkNjAwNWI1MGQ4YmQyZjNmNjBmIiwiZXhwIjo0ODc3MzE2MDQ1fQ.6nGLn21C_ydDteQWVUc5N5tSFEybWBwdHJP7pUcEoqs
+    ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试设备地址为：${url}
     Log    并发请求测试---------------------------------------------------
     # 模拟并发请求（在Robot Framework中通过快速连续请求模拟）
@@ -268,6 +283,7 @@ Library           Collections
     ${all_valid}    Evaluate    ${is_array1} and ${is_array2} and ${is_array3} and ${is_array4} and ${is_array5}
     Run Keyword If    ${all_valid}==True    Log    所有并发请求都返回正确格式
     Run Keyword If    ${all_valid}!=True    Fail    部分并发请求返回格式错误
+    sleep    1
 
 *** Keywords ***
 验证流数据必要字段
@@ -283,6 +299,7 @@ Library           Collections
         Run Keyword If    ${has_field}==False    Fail    流数据缺少必要字段: ${field}
     END
     Log    流数据包含所有必要字段，验证通过
+    sleep    1
 
 验证不同类型流
     [Arguments]    ${stream_list}=${rep}
@@ -302,6 +319,7 @@ Library           Collections
         Log    类型 ${type}: ${type_count}[${type}] 个
     END
     Log    不同类型流验证完成
+    sleep    1
 
 验证流状态一致性
     [Arguments]    ${stream_list}
@@ -316,6 +334,7 @@ Library           Collections
         Run Keyword If    "${status}"=="stop" and ${enable}!=False    Fail    流状态不一致：status为stop但enable不是false
     END
     Log    所有流的状态与启用状态一致，验证通过
+    sleep    1
 
 验证流地址可访问性
     [Arguments]    ${stream_list}
@@ -331,6 +350,7 @@ Library           Collections
         Run Keyword If    "${address_url}"!="offline"    Log    流地址状态正常：${address_url}
     END
     Log    流地址可访问性验证完成
+    sleep    1
 
 验证端口号有效性
     [Arguments]    ${stream_list}
