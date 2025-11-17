@@ -1,5 +1,5 @@
 *** Settings ***
-Library           ../../Python37/Lib/site-packages/MyTest.py
+Library           MyTest.py
 Library           RequestsLibrary
 Library           DatabaseLibrary
 Library           Selenium2Library
