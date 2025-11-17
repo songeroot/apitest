@@ -1,9 +1,9 @@
 *** Settings ***
 Library           ../../Python37/Lib/site-packages/MyTest.py
-Library           ../../Python37/Lib/site-packages/RequestsLibrary/
-Library           ../../Python37/Lib/site-packages/DatabaseLibrary/
-Library           ../../Python37/Lib/site-packages/Selenium2Library/
-Library           ../../Python37/Lib/site-packages/JSONLibrary/
+Library           RequestsLibrary
+Library           DatabaseLibrary
+Library           Selenium2Library
+Library           JSONLibrary
 Resource          ../url.txt
 Library           Collections
 Resource          ../token.txt
