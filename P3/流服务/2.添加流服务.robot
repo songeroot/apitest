@@ -8,11 +8,12 @@ Library           BuiltIn
 Library           DatabaseLibrary
 Library           Selenium2Library
 Resource          ../token.txt
+Library           jsonpointer
 
 *** Variables ***
 
 *** Test Cases ***
-3.1.2.1 添加流-正常场景-添加NDI流
+2.1 添加流-正常场景-添加NDI流
     [Documentation]    验证能够正常添加NDI流
     ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试设备地址为：${url}
@@ -34,7 +35,7 @@ Resource          ../token.txt
         sleep    1
     END
 
-3.1.2.2 添加流-正常场景-添加RTSP流
+2.2 添加流-正常场景-添加RTSP流
     [Documentation]    验证能够正常添加rtsp流
     ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试设备地址为：${url}
@@ -56,7 +57,7 @@ Resource          ../token.txt
         sleep    1
     END
 
-3.1.2.3 添加流-正常场景-添加RTMP流
+2.3 添加流-正常场景-添加RTMP流
     [Documentation]    验证能够正常添加rtmp流
     ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试设备地址为：${url}
@@ -74,7 +75,7 @@ Resource          ../token.txt
     Run Keyword If    ${result}!="ok"    fail    用例执行失败，添加rtmp流失败:${rep}
     sleep    1
 
-3.1.2.4 添加流-正常场景-添加SRT流
+2.4 添加流-正常场景-添加SRT流
     [Documentation]    验证能够正常添加SRT流
     ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    添加SRT流Listener模式---------------------------------------------------
@@ -106,7 +107,7 @@ Resource          ../token.txt
     Run Keyword If    ${result1}!="ok"    fail    用例执行失败，添加srt流caller模式失败:${rep1}
     sleep    1
 
-3.1.2.5 添加流-正常场景-添加HLS流
+2.5 添加流-正常场景-添加HLS流
     [Documentation]    验证能够正常添加HLS流
     ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    添加HLS流---------------------------------------------------
@@ -123,7 +124,7 @@ Resource          ../token.txt
     Run Keyword If    ${result}=="error" and ${msg}=="Only 1CH HLS streaming service supported"    log    用例执行成功，添加hls流失败，hls流已存在，最多只能添加一路
     Run Keyword If    ${result}!="ok" and ${msg}!="Only 1CH HLS streaming service supported"    fail    用例执行失败，添加hls流server模式失败：${rep}
 
-3.1.2.6 添加流-正常场景-添加TS-UDP流
+2.6 添加流-正常场景-添加TS-UDP流
     [Documentation]    验证能够正常添加TS-UDP流
     ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    添加TS-UDP流---------------------------------------------------
@@ -139,7 +140,7 @@ Resource          ../token.txt
     Run Keyword If    ${result}=="ok" and ${msg}==""    log    用例执行成功，添加udp流成功
     Run Keyword If    ${result}!="ok"    fail    用例执行失败，添加udp流失败:${rep}
 
-3.1.2.7 添加流-正常场景-添加RTP流
+2.7 添加流-正常场景-添加RTP流
     [Documentation]    验证能够正常添加RTP流
     ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    添加RTP流---------------------------------------------------
@@ -155,7 +156,7 @@ Resource          ../token.txt
     Run Keyword If    ${result}=="ok" and ${msg}==""    log    用例执行成功，添加rtp流成功
     Run Keyword If    ${result}!="ok"    fail    用例执行失败，添加rtp流失败:${rtp}
 
-3.1.2.10 添加流-异常场景-缺少必填参数
+2.8 添加流-异常场景-缺少必填参数
     [Documentation]    验证缺少必填参数时的错误处理
     ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试缺少必填参数---------------------------------------------------
@@ -170,7 +171,7 @@ Resource          ../token.txt
     Comment    Should Not Be Equal As Strings    ${response_data}[result]    ok
     Comment    Log    用例执行成功，正确处理了缺少必填参数的情况
 
-3.1.2.11 添加流-异常场景-无效的流类型
+2.9 添加流-异常场景-无效的流类型
     [Documentation]    验证无效流类型时的错误处理
     ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试无效流类型---------------------------------------------------
@@ -184,7 +185,7 @@ Resource          ../token.txt
     Comment    Should Not Be Equal As Strings    ${response_data}[result]    ok
     Comment    Log    用例执行成功，正确处理了无效流类型
 
-3.1.2.12 添加流-异常场景-无权限访问
+2.10 添加流-异常场景-无权限访问
     [Documentation]    验证无权限时的错误处理
     ${headers}    Create Dictionary    Content-Type=application/json    Authorization=invalid_token
     Log    测试无权限访问---------------------------------------------------
@@ -197,7 +198,7 @@ Resource          ../token.txt
     Comment    Run Keyword If    ${status_code}==401 or ${status_code}==403    Log    用例执行成功，正确处理了无权限访问
     Comment    Run Keyword If    ${status_code}!=401 and ${status_code}!=403    Fail    期望返回401或403状态码，实际返回${status_code}
 
-3.1.2.16 添加流-边界场景-超长字符串测试
+2.11 添加流-边界场景-超长字符串测试
     [Documentation]    验证超长字符串的处理
     ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    测试超长字符串---------------------------------------------------
@@ -209,7 +210,7 @@ Resource          ../token.txt
     Comment    Log    超长字符串测试返回值: ${rep}
     Comment    Log    用例执行成功，超长字符串测试完成
 
-3.1.2.17 添加流-功能场景-验证参数类型
+2.12 添加流-功能场景-验证参数类型
     [Documentation]    验证参数类型的正确性
     ${headers}    Create Dictionary    Content-Type=application/json    Authorization=${auth_token}
     Log    验证参数类型---------------------------------------------------
