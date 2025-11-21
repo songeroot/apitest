@@ -1,0 +1,17 @@
+*** Keywords ***
+Login And Get Token
+    [Documentation]    登录并获取token，返回token字符串
+    # [Arguments]    ${username}="admin"    ${password}="Admin123"    ${language}=en
+    Create Session    api    ${URL}
+    ${headers}=    Create Dictionary    App={"language":"en"}    Content-Type=application/json
+    ${data}=    Create Dictionary    username=admin    password=Admin123
+    ${response}=    POST On Session    api    /api/systemctrl/users/login    json=${data}    headers=${headers}
+    # 验证响应状态
+    Should Be Equal As Strings    ${response.status_code}    200
+    # 提取token并返回
+    ${token}=    Set Variable    ${response.json()['data']['token']}
+    [Return]    ${token}
+
+获取全局Token
+    ${token}=    Login And Get Token
+    Set Suite Variable    ${AUTH_TOKEN}    ${token}
