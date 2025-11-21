@@ -1,13 +1,15 @@
 *** Settings ***
-Library           ../../Python37/Lib/site-packages/RequestsLibrary/
-Library           ../../Python37/Lib/site-packages/DatabaseLibrary/
-Library           ../../Python37/Lib/site-packages/Selenium2Library/
-Library           ../../Python37/Lib/site-packages/MyTest.py
-Library           ../../Python37/Lib/site-packages/JSONLibrary/
+Library           RequestsLibrary
+Library           DatabaseLibrary
+Library           Selenium2Library
+Library           MyTest.py
+Library           JSONLibrary
+Resource          ../../url.txt
+Resource          ../../token.txt
 
 *** Test Cases ***
 5.1 HDMI和SDI反复切换
-    FOR    ${var}    IN RANGE    50    #循环多少次
+    FOR    ${var}    IN RANGE    1    #循环多少次
         ${var2}    Evaluate    ${var} * 2
         log    第${var2} 次切换---------------------------------------------------------------------------------------------------------
         视频源切换
@@ -15,13 +17,13 @@ Library           ../../Python37/Lib/site-packages/JSONLibrary/
 
 *** Keywords ***
 视频源切换
-    ${headers}    create dictionary    Content-Type=application/x-www-form-urlencoded    Authorization=Basic YWRtaW46YWRtaW4=    Content-Type=application/json
+    ${headers}    create dictionary    Content-Type=application/x-www-form-urlencoded    Authorization=${auth_token}    Content-Type=application/json
     @{list}    set variable    hdmi    uvc
     FOR    ${var}    IN    @{list}    #切换成对应指定的视频输入源
         log    切换成${var}的视频源
         ${body}    create dictionary    source=${var}
         ${body1}    MyTest.To Json    ${body}
-        ${rep}    My Post    http://192.168.43.142/api/codec/v1/vin/source    ${body1}    ${headers}
+        ${rep}    My Post    ${url}/api/codec/v1/vin/source    ${body1}    ${headers}
         ${result}    get_json_value    ${rep}    result
         sleep    4
         ${result}    MyTest.To Json    ${result}

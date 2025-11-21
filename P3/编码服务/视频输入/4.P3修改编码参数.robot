@@ -1,10 +1,11 @@
 *** Settings ***
-Library           ../../Python37/Lib/site-packages/RequestsLibrary/
-Library           ../../Python37/Lib/site-packages/DatabaseLibrary/
-Library           ../../Python37/Lib/site-packages/Selenium2Library/
-Library           ../../Python37/Lib/site-packages/MyTest.py
-Library           ../../Python37/Lib/site-packages/JSONLibrary/
-Resource          ../url.txt
+Library           RequestsLibrary
+Library           DatabaseLibrary
+Library           Selenium2Library
+Library           MyTest.py
+Library           JSONLibrary
+Resource          ../../url.txt
+Resource          ../../token.txt
 
 *** Test Cases ***
 4.1 H.265和H.264反复切换
@@ -16,7 +17,7 @@ Resource          ../url.txt
 
 *** Keywords ***
 编码参数修改
-    ${headers}    create dictionary    Content-Type=application/x-www-form-urlencoded    Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibWQ1X3N0ciI6ImVhMWI3MWI5YTljMWFkNjAwNWI1MGQ4YmQyZjNmNjBmIiwiZXhwIjo0ODc3NjU3NDU4fQ.4kZiplREYl8kdCOp9LTB2ix_kJb5KHiJijArkwvODAc    Content-Type=application/json
+    ${headers}    create dictionary    Content-Type=application/x-www-form-urlencoded    Authorization=${auth_token}    Content-Type=application/json
     @{list}    set variable    H264    H265
     FOR    ${var}    IN    @{list}    #切换成对应指定的编码
         log    切换成${var}编码
